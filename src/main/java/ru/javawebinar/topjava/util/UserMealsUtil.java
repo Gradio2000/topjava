@@ -34,7 +34,7 @@ public class UserMealsUtil {
         List<UserMealWithExcess> mealWithExcesses = new ArrayList<>();
         for (UserMeal userMeal : meals){
             LocalTime localTime = LocalTime.of(userMeal.getDateTime().getHour(), userMeal.getDateTime().getMinute());
-            if (localTime.isAfter(startTime) && localTime.isBefore(endTime)){
+            if (TimeUtil.isBetweenHalfOpen(localTime, startTime, endTime)){
                 mealWithExcesses.add(new UserMealWithExcess(userMeal.getDateTime(), userMeal.getDescription(),
                         userMeal.getCalories(), true));
             }
