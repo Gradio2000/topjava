@@ -9,7 +9,7 @@ import java.time.Month;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 public class UserMealsUtil {
     public static void main(String[] args) {
@@ -32,11 +32,13 @@ public class UserMealsUtil {
     public static List<UserMealWithExcess> filteredByCycles(List<UserMeal> meals, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
         // TODO return filtered list with excess. Implement by cycles
         List<UserMealWithExcess> mealWithExcesses = new ArrayList<>();
+
         for (UserMeal userMeal : meals){
             LocalTime localTime = LocalTime.of(userMeal.getDateTime().getHour(), userMeal.getDateTime().getMinute());
             if (TimeUtil.isBetweenHalfOpen(localTime, startTime, endTime)){
+                boolean excess = getSummaryCalloriesPerday(meals, userMeal.getDateTime()) > caloriesPerDay;
                 mealWithExcesses.add(new UserMealWithExcess(userMeal.getDateTime(), userMeal.getDescription(),
-                        userMeal.getCalories(), true));
+                        userMeal.getCalories(), excess));
             }
         }
         return mealWithExcesses;
@@ -45,5 +47,17 @@ public class UserMealsUtil {
     public static List<UserMealWithExcess> filteredByStreams(List<UserMeal> meals, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
         // TODO Implement by streams
         return null;
+    }
+
+    public static int getSummaryCalloriesPerday(List<UserMeal> userMeals, LocalDateTime localDateTime){
+        int callories = 0;
+        for (UserMeal userMeal : userMeals){
+            if (userMeal.getDateTime().getYear() == localDateTime.getYear() &&
+                userMeal.getDateTime().getMonth() == localDateTime.getMonth() &&
+                userMeal.getDateTime().getDayOfMonth() == localDateTime.getDayOfMonth()){
+                callories = callories + userMeal.getCalories();
+            }
+        }
+        return callories;
     }
 }
