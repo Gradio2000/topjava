@@ -11,6 +11,8 @@ import java.io.IOException;
 import static org.slf4j.LoggerFactory.getLogger;
 
 public class UserServlet extends HttpServlet {
+
+    //Ветка lesson_1
     private static final Logger log = getLogger(UserServlet.class);
 
     @Override
