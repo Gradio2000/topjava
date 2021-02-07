@@ -6,25 +6,29 @@ import ru.javawebinar.topjava.model.MealTo;
 import ru.javawebinar.topjava.util.MealsUtil;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalTime;
+import java.util.Iterator;
 import java.util.List;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
-public class MealServlet extends HttpServlet {
+@WebServlet("/delete")
+public class DeleteServlet extends HttpServlet {
     private static final Logger log = getLogger(UserServlet.class);
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        log.debug("redirect to list");
+        log.debug("into DeleteDervlet");
 
-        List<MealTo> mealTos = MealsUtil.filteredByStreams(MealsUtil.mealList,
-                LocalTime.of(0, 1), LocalTime.of(23, 59), 2000);
 
-        req.setAttribute("mealsList", mealTos);
-        req.getRequestDispatcher("/meals.jsp").forward(req, resp);
+//        List<MealTo> mealTos = MealsUtil.filteredByStreams(mealList,
+//                LocalTime.of(0, 1), LocalTime.of(23, 59), 2000);
+
+//        req.setAttribute("mealsList", mealTos);
+//        req.getRequestDispatcher("/meals").forward(req, resp);
     }
 }

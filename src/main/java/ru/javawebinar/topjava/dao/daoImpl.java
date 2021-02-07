@@ -8,7 +8,7 @@ import java.util.List;
 public class daoImpl implements dao{
     @Override
     public Meal update(Meal editMeal) {
-        List<Meal> mealsList = MealsUtil.getListMeal();
+        List<Meal> mealsList = MealsUtil.mealList;
         for (Meal meal : mealsList){
             if (meal.getId() == editMeal.getId()){
                 meal.setDateTime(editMeal.getDateTime());

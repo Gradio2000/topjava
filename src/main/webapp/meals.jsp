@@ -44,7 +44,7 @@ vasya: <c:out value="${id}"/>
             <td> <% out.println(mealTo.getDescription());%> </td>
             <td> <% out.println(mealTo.getCalories());%> </td>
             <td><a href='update?id=${id}'>Update</a></td>
-            <td><a href="delete">Delete</a></td>
+            <td><a href='delete?id=${id}'>Delete</a></td>
             <%
                 }
             %>
