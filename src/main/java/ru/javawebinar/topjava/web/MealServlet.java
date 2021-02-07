@@ -22,7 +22,7 @@ public class MealServlet extends HttpServlet {
         log.debug("redirect to list");
 
         List<MealTo> mealTos = MealsUtil.filteredByStreams(MealsUtil.mealList,
-                LocalTime.of(0, 1), LocalTime.of(23, 59), 2000);
+                LocalTime.of(0, 0), LocalTime.of(23, 59), 2000);
 
         req.setAttribute("mealsList", mealTos);
         req.getRequestDispatcher("/meals.jsp").forward(req, resp);
