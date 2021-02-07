@@ -1,6 +1,7 @@
 package ru.javawebinar.topjava.web;
 
 import org.slf4j.Logger;
+import ru.javawebinar.topjava.dao.DaoImpl;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.MealTo;
 import ru.javawebinar.topjava.util.MealsUtil;
@@ -22,13 +23,9 @@ public class DeleteServlet extends HttpServlet {
     private static final Logger log = getLogger(UserServlet.class);
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        log.debug("into DeleteDervlet");
-
-
-//        List<MealTo> mealTos = MealsUtil.filteredByStreams(mealList,
-//                LocalTime.of(0, 1), LocalTime.of(23, 59), 2000);
-
-//        req.setAttribute("mealsList", mealTos);
-//        req.getRequestDispatcher("/meals").forward(req, resp);
+        log.debug("into DeleteServlet");
+        DaoImpl dao = new DaoImpl();
+        int id = Integer.parseInt(req.getParameter("id"));
+        dao.delete(id);
     }
 }

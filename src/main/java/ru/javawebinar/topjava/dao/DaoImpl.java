@@ -3,9 +3,10 @@ package ru.javawebinar.topjava.dao;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.util.MealsUtil;
 
+import java.util.Iterator;
 import java.util.List;
 
-public class daoImpl implements dao{
+public class DaoImpl implements Dao {
     @Override
     public Meal update(Meal editMeal) {
         List<Meal> mealsList = MealsUtil.mealList;
@@ -17,5 +18,17 @@ public class daoImpl implements dao{
             }
         }
         return null;
+    }
+
+    @Override
+    public void delete(int id) {
+        List<Meal> mealsList = MealsUtil.mealList;
+        Iterator<Meal> iterator = mealsList.iterator();
+        while (iterator.hasNext()){
+            Meal meal = iterator.next();
+            if (meal.getId() == id){
+                iterator.remove();
+            }
+        }
     }
 }
