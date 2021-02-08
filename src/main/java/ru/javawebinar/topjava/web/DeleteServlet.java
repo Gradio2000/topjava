@@ -27,5 +27,7 @@ public class DeleteServlet extends HttpServlet {
         DaoImpl dao = new DaoImpl();
         int id = Integer.parseInt(req.getParameter("id"));
         dao.delete(id);
+        MealServlet mealServlet = new MealServlet();
+        mealServlet.doGet(req, resp);
     }
 }

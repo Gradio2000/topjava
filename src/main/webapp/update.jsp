@@ -51,7 +51,7 @@ EDIT MEAL
 
 
 <br><br/>
-<form action="update.jsp" method="POST">
+<form action="${pageContext.request.contextPath}/action_update" method="POST">
     Date&Time: <input name="date" type="date" value="${date}"/>
     <br><br>
     Calories: <input name="calories" value="${call}"/>
@@ -63,7 +63,7 @@ EDIT MEAL
     <option selected value="t4">${descr}</option>
 </select>
     <br><br>
-    <input type="submit" value="Cancel" />
+    <input type="button" value="Cancel" />
     <input type="submit" value="Update" />
 </form>
 </body>
