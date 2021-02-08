@@ -1,8 +1,7 @@
-<%@ page import="ru.javawebinar.topjava.model.MealTo" %>
+
 <%@ page import="ru.javawebinar.topjava.model.Meal" %>
 <%@ page import="ru.javawebinar.topjava.util.MealsUtil" %>
 <%@ page import="java.util.List" %>
-<%@ page import="java.time.LocalDateTime" %>
 <%@ page import="java.time.LocalDate" %>
 <%@ taglib prefix="s" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -14,7 +13,10 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@page pageEncoding="UTF-8"%>
+
 <html>
+<%request.setCharacterEncoding("UTF-8");%>
 <head>
     <meta charset="UTF-8">
     <title>User Form</title>
@@ -32,6 +34,7 @@ EDIT MEAL
     LocalDate dateTime = mealForUpdate.getDateTime().toLocalDate();
     String description = mealForUpdate.getDescription();
     int calories = mealForUpdate.getCalories();
+    int id = mealForUpdate.getId();
 %>
 <c:set var="date">
     <%
@@ -48,10 +51,16 @@ EDIT MEAL
         out.println(calories);
     %>
 </c:set>
-
+<c:set var="id">
+    <%
+        out.println(id);
+    %>
+</c:set>
 
 <br><br/>
 <form action="${pageContext.request.contextPath}/action_update" method="POST">
+    <input name="id" type="hidden" value="${id}">
+    <br><br/>
     Date&Time: <input name="date" type="date" value="${date}"/>
     <br><br>
     Calories: <input name="calories" value="${call}"/>
@@ -60,7 +69,7 @@ EDIT MEAL
     <option>Завтрак</option>
     <option>Обед</option>
     <option>Ужин</option>
-    <option selected value="t4">${descr}</option>
+    <option selected>${descr}</option>
 </select>
     <br><br>
     <input type="button" value="Cancel" />
