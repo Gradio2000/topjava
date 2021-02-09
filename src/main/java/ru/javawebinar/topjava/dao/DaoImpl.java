@@ -31,4 +31,11 @@ public class DaoImpl implements Dao {
             }
         }
     }
+
+
+    @Override
+    public void add(Meal meal) {
+        List<Meal> mealsList = MealsUtil.mealList;
+        mealsList.add(meal);
+    }
 }

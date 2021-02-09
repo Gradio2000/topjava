@@ -1,4 +1,3 @@
-
 <%@ page import="ru.javawebinar.topjava.model.Meal" %>
 <%@ page import="ru.javawebinar.topjava.util.MealsUtil" %>
 <%@ page import="java.util.List" %>

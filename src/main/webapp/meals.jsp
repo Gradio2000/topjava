@@ -17,6 +17,8 @@
 </head>
 <body>
 My meals list work already!
+<br><br/>
+<a href="add">Create new meal</a>
 <style type="text/css">
     TABLE {
         border-collapse: collapse; /* Убираем двойные линии между ячейками */
@@ -55,8 +57,14 @@ My meals list work already!
                 out.println(id);
             %>
         </c:set>
+        <c:set var="excess">
+            <%
+//                boolean ex = mealTo.isExcess();
+//                out.printl(ex);
+            %>
+        </c:set>
 
-        <tr>
+        <tr style="color: ${excess.equals("true") ? 'red' : 'green'}">
             <td><% out.println(mealTo.getDateTime().toLocalDate() + " " + mealTo.getDateTime().toLocalTime());  %> </td>
             <td> <% out.println(mealTo.getDescription());%> </td>
             <td> <% out.println(mealTo.getCalories());%> </td>
