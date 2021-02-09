@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="java.util.List" %>
-<%@ page import="ru.javawebinar.topjava.model.MealTo" %><%--
+<%@ page import="ru.javawebinar.topjava.model.MealTo" %>
+<%--
   Created by IntelliJ IDEA.
   User: aleksejlaskin
   Date: 05.02.2021
@@ -8,8 +9,6 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
-
 
 <html>
 <head>
@@ -19,6 +18,7 @@
 My meals list work already!
 <br><br/>
 <a href="add">Create new meal</a>
+<br><br/>
 <style type="text/css">
     TABLE {
         border-collapse: collapse; /* Убираем двойные линии между ячейками */
@@ -37,9 +37,8 @@ My meals list work already!
         padding: 0; /* Убираем поля вокруг текста */
     }
 </style>
-<br/>
-<ul>
-    <table border="2">
+
+    <table>
         <tr>
             <th>Date</th>
             <th>Description</th>
@@ -47,36 +46,15 @@ My meals list work already!
             <th></th>
             <th></th>
         </tr>
-        <%
-            List<MealTo> mealsToList = (List<MealTo>) request.getAttribute("mealsList");
-            for (MealTo mealTo : mealsToList){
-        %>
-        <c:set var="id">
-            <%
-                int id = mealTo.getId();
-                out.println(id);
-            %>
-        </c:set>
-        <c:set var="excess">
-            <%
-//                boolean ex = mealTo.isExcess();
-//                out.printl(ex);
-            %>
-        </c:set>
-
-        <tr style="color: ${excess.equals("true") ? 'red' : 'green'}">
-            <td><% out.println(mealTo.getDateTime().toLocalDate() + " " + mealTo.getDateTime().toLocalTime());  %> </td>
-            <td> <% out.println(mealTo.getDescription());%> </td>
-            <td> <% out.println(mealTo.getCalories());%> </td>
-            <td><a href='update?id=${id}'>Update</a></td>
-            <td><a href='delete?id=${id}'>Delete</a></td>
-            <%
-                }
-            %>
+        <c:forEach items="${mealsList}" var="meal">
+            <tr style="color: ${meal.excess ? 'red' : 'green'}">
+            <td><c:out value="${meal.formattedDateTime}"/></td>
+            <td><c:out value="${meal.description}"/></td>
+            <td><c:out value="${meal.calories}"/></td>
+            <td><a href='update?id=${meal.id}'>Update</a></td>
+            <td><a href='delete?id=${meal.id}'>Delete</a></td>
         </tr>
+        </c:forEach>
     </table>
-</ul>
-
-
 </body>
 </html>
