@@ -3,6 +3,7 @@
 <%@ page import="ru.javawebinar.topjava.util.MealsUtil" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.time.LocalDate" %>
+<%@ page import="java.time.LocalDateTime" %>
 <%@ taglib prefix="s" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
@@ -31,7 +32,7 @@ EDIT MEAL
             mealForUpdate = meal;
         }
     }
-    LocalDate dateTime = mealForUpdate.getDateTime().toLocalDate();
+    LocalDateTime dateTime = mealForUpdate.getDateTime();
     String description = mealForUpdate.getDescription();
     int calories = mealForUpdate.getCalories();
     int id = mealForUpdate.getId();
@@ -61,7 +62,7 @@ EDIT MEAL
 <form action="${pageContext.request.contextPath}/action_update" method="POST">
     <input name="id" type="hidden" value="${id}">
     <br><br/>
-    Date&Time: <input name="date" type="date" value="${date}"/>
+    Date&Time: <input name="date" type="datetime-local" value="${date}"/>
     <br><br>
     Calories: <input name="calories" value="${call}"/>
     <br><br>
