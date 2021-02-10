@@ -25,7 +25,8 @@
 ADD MEAL
 
 <br><br/>
-<form action="${pageContext.request.contextPath}/action_add" method="POST">
+<form action="action" method="POST">
+    <input name="action" type="hidden" value="add">
     Date&Time: <input name="date" type="datetime-local"/>
     <br><br>
     Calories: <input name="calories"/>

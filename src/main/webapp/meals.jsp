@@ -52,7 +52,7 @@ My meals list work already!
             <td><c:out value="${meal.description}"/></td>
             <td><c:out value="${meal.calories}"/></td>
             <td><a href='update?id=${meal.id}'>Update</a></td>
-            <td><a href='delete?id=${meal.id}'>Delete</a></td>
+            <td><a href='action?id=${meal.id}'>Delete</a></td>
         </tr>
         </c:forEach>
     </table>

@@ -1,10 +1,9 @@
 <%@ page import="ru.javawebinar.topjava.model.Meal" %>
 <%@ page import="ru.javawebinar.topjava.util.MealsUtil" %>
 <%@ page import="java.util.List" %>
-<%@ page import="java.time.LocalDate" %>
-<%@ page import="java.time.LocalDateTime" %>
-<%@ taglib prefix="s" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@page pageEncoding="UTF-8"%>
 <%--
   Created by IntelliJ IDEA.
   User: aleksejlaskin
@@ -12,8 +11,7 @@
   Time: 23:21
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@page pageEncoding="UTF-8"%>
+
 
 <html>
 <%request.setCharacterEncoding("UTF-8");%>
@@ -31,45 +29,24 @@ EDIT MEAL
             mealForUpdate = meal;
         }
     }
-    LocalDateTime dateTime = mealForUpdate.getDateTime();
-    String description = mealForUpdate.getDescription();
-    int calories = mealForUpdate.getCalories();
-    int id = mealForUpdate.getId();
+    request.setAttribute("meal", mealForUpdate);
 %>
-<c:set var="date">
-    <%
-        out.println(dateTime);
-    %>
-</c:set>
-<c:set var="descr">
-    <%
-        out.println(description);
-    %>
-</c:set>
-<c:set var="call">
-    <%
-        out.println(calories);
-    %>
-</c:set>
-<c:set var="id">
-    <%
-        out.println(id);
-    %>
-</c:set>
+
 
 <br><br/>
-<form action="${pageContext.request.contextPath}/action_update" method="POST">
-    <input name="id" type="hidden" value="${id}">
+<form action="action" method="POST">
+    <input name="action" value="update" type="hidden">
+    <input name="id" type="hidden" value="${meal.getId()}">
     <br><br/>
-    Date&Time: <input name="date" type="datetime-local" value="${date}"/>
+    Date&Time: <input name="date" type="datetime-local" value="${meal.getDateTime()}"/>
     <br><br>
-    Calories: <input name="calories" value="${call}"/>
+    Calories: <input name="calories" value="${meal.getCalories()}"/>
     <br><br>
     Description: <select name="description">
     <option>Завтрак</option>
     <option>Обед</option>
     <option>Ужин</option>
-    <option selected>${descr}</option>
+    <option selected>${meal.getDescription()}</option>
 </select>
     <br><br>
     <input type="button" value="Cancel" />
