@@ -37,7 +37,7 @@ ADD MEAL
     <option>Ужин</option>
 </select>
     <br><br>
-    <input type="button" value="Cancel" />
+    <input type="button" value="Cancel" onclick="window.history.back()" />
     <input type="submit" value="Add meal" />
 </form>
 </body>
