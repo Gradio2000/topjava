@@ -24,6 +24,13 @@
     <a href="meals?action=create">Add Meal</a>
     <br><br>
     <table border="1" cellpadding="8" cellspacing="0">
+
+        <form method="post" action="meals" name="filter">
+            <button type="submit">Фильтр</button>
+            <button onclick="" type="button">Сброс</button>
+        </form>
+        <br><br>
+
         <thead>
         <tr>
             <th>Date</th>

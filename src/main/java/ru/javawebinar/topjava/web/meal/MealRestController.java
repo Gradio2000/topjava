@@ -34,7 +34,7 @@ public class MealRestController {
 
     public Meal create(Meal meal) {
         log.info("create {}", meal);
-        checkNew(meal);
+//        checkNew(meal);
         return service.create(meal);
     }
 
@@ -48,5 +48,4 @@ public class MealRestController {
         assureIdConsistent(meal, id);
         service.update(meal);
     }
-
 }

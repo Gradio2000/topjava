@@ -27,12 +27,9 @@ public class MealServlet extends HttpServlet {
     MealRestController mealRestController = appCtx.getBean(MealRestController.class);
 
 
-    @Autowired
-    private MealRepository repository;
-
     @Override
     public void init() {
-        repository = new InMemoryMealRepository();
+        new InMemoryMealRepository();
     }
 
     @Override
@@ -46,9 +43,11 @@ public class MealServlet extends HttpServlet {
                 Integer.parseInt(request.getParameter("calories")), SecurityUtil.authUserId());
 
         log.info(meal.isNew() ? "Create {}" : "Update {}", meal);
-        repository.save(meal);
+        mealRestController.create(meal);
         response.sendRedirect("meals");
+
     }
+
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -65,7 +64,7 @@ public class MealServlet extends HttpServlet {
             case "update":
                 final Meal meal = "create".equals(action) ?
                         new Meal(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), "", 1000, SecurityUtil.authUserId()) :
-                        repository.get(getId(request));
+                        mealRestController.get(getId(request));
                 request.setAttribute("meal", meal);
                 request.getRequestDispatcher("/mealForm.jsp").forward(request, response);
                 break;
@@ -73,7 +72,7 @@ public class MealServlet extends HttpServlet {
             default:
                 log.info("getAll");
                 request.setAttribute("meals",
-                        MealsUtil.getTos(repository.getAll(), MealsUtil.DEFAULT_CALORIES_PER_DAY));
+                        MealsUtil.getTos(mealRestController.getAll(), MealsUtil.DEFAULT_CALORIES_PER_DAY));
                 request.getRequestDispatcher("/meals.jsp").forward(request, response);
                 break;
         }
