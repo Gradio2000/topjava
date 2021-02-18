@@ -26,6 +26,22 @@
     <table border="1" cellpadding="8" cellspacing="0">
 
         <form method="post" action="meals" name="filter">
+            <dl>
+                <dt>От даты (включительно)</dt>
+                <dd><input name="dateFrom" type="date"></dd>
+            </dl>
+            <dl>
+                <dt>До даты (включительно)</dt>
+                <dd><input name="dateBefore" type="date"></dd>
+            </dl>
+            <dl>
+                <dt>Время начала</dt>
+                <dd><input name="timeFrom" type="time"></dd>
+            </dl>
+            <dl>
+                <dt>Время окончания</dt>
+                <dd><input name="timeBefore" type="time"></dd>
+            </dl>
             <button type="submit">Фильтр</button>
             <button onclick="" type="button">Сброс</button>
         </form>

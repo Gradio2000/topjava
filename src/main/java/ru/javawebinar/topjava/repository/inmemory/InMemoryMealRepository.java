@@ -26,7 +26,6 @@ public class InMemoryMealRepository implements MealRepository {
 
     @Override
     public Meal save(Meal meal) {
-        if (meal.getUserId() != SecurityUtil.authUserId()) return null;
         if (meal.isNew()) {
             meal.setId(counter.incrementAndGet());
             repository.put(meal.getId(), meal);
@@ -38,17 +37,18 @@ public class InMemoryMealRepository implements MealRepository {
 
     @Override
     public boolean delete(int id) {
-        return repository.get(id).getUserId() == SecurityUtil.authUserId() && repository.remove(id) != null;
+        return repository.get(id).getUserId() == SecurityUtil.getAuthUserId() && repository.remove(id) != null;
     }
 
     @Override
     public Meal get(int id) {
-        return repository.get(id).getUserId() == SecurityUtil.authUserId() ? repository.get(id) : null;
+        return repository.get(id).getUserId() == SecurityUtil.getAuthUserId() ? repository.get(id) : null;
     }
 
     @Override
     public Collection<Meal> getAll() {
         return repository.values().stream()
+                .filter(meal -> meal.getUserId() == SecurityUtil.getAuthUserId())
                 .sorted((o1, o2) -> o2.getDate().compareTo(o1.getDate())).collect(Collectors.toList());
     }
 }
