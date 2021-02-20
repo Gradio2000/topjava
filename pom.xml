@@ -16,7 +16,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <spring.version>5.3.3</spring.version>
+        <spring.version>5.3.4</spring.version>
 
         <!-- Logging -->
         <logback.version>1.2.3</logback.version>
@@ -95,7 +95,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
-            <version>5.3.4</version>
+            <version>${spring.version}</version>
             <scope>test</scope>
         </dependency>
 
