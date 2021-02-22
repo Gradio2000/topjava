@@ -20,8 +20,11 @@ public class InMemoryAdminRestControllerSpringTest {
     @Autowired
     private AdminRestController controller;
 
-    @Autowired
     private InMemoryUserRepository repository;
+
+    public InMemoryAdminRestControllerSpringTest(InMemoryUserRepository repository) {
+        this.repository = repository;
+    }
 
     @Before
     public void setUp() {

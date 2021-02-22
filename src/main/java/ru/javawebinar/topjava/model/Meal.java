@@ -1,14 +1,18 @@
 package ru.javawebinar.topjava.model;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class Meal extends AbstractBaseEntity {
     private Integer id;
-    private final LocalDateTime dateTime;
-    private final String description;
-    private final int calories;
+    private LocalDateTime dateTime = null;
+    private String description = null;
+    private int calories = 0;
+
 
     public Meal(LocalDateTime dateTime, String description, int calories) {
         this(null, dateTime, description, calories);
@@ -19,6 +23,9 @@ public class Meal extends AbstractBaseEntity {
         this.dateTime = dateTime;
         this.description = description;
         this.calories = calories;
+    }
+
+    public Meal() {
     }
 
     public Integer getId() {
@@ -51,6 +58,19 @@ public class Meal extends AbstractBaseEntity {
 
     public boolean isNew() {
         return id == null;
+    }
+
+
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setCalories(int calories) {
+        this.calories = calories;
     }
 
     @Override
