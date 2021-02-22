@@ -17,6 +17,8 @@ import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.service.MealService;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.*;
 import static ru.javawebinar.topjava.UserTestData.admin;
@@ -31,22 +33,15 @@ import static ru.javawebinar.topjava.UserTestData.assertMatch;
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
 public class JdbcMealRepositoryTest {
 
-    private void assertMatch(Meal actual, Meal expected) {
-        assertThat(actual).usingRecursiveComparison().ignoringFields("id").isEqualTo(expected);
-
-    }
-
-
     @Autowired
     private MealService mealService;
-
 
     @Test
     public void save() {
         Meal newMeal = MealTestData.NEW_MEAL;
         Meal createdMeal = mealService.create(newMeal, MealTestData.USER_ID);
         int newId = createdMeal.getId();
-        assertMatch(createdMeal, newMeal);
+        MealTestData.assertMatch(createdMeal, newMeal);
     }
 
     @Test
@@ -58,13 +53,14 @@ public class JdbcMealRepositoryTest {
     @Test
     public void get() {
         Meal meal = mealService.get(MealTestData.MEAL_ID, MealTestData.USER_ID);
-        assertMatch(meal, MealTestData.MEAL);
+        MealTestData.assertMatch(meal, MealTestData.MEAL);
     }
 
 
     @Test
     public void getAll() {
-
+        List<Meal> list = mealService.getAll(MealTestData.USER_ID);
+        MealTestData.assertMatchCollection(list, MealTestData.MEALS_LIST);
     }
 
     @Test
