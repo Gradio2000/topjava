@@ -10,6 +10,7 @@ import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,9 +37,15 @@ public class JdbcMealRepository implements MealRepository {
 
     @Override
     public Meal save(Meal meal, int userId) {
-        if (meal.getId() == null){
+        if (meal.isNew()){
             jdbcTemplate.update("INSERT INTO meals (datetime, description, calories, userid) " +
                     "VALUES (?, ?, ?, ?)", meal.getDateTime(), meal.getDescription(), meal.getCalories(), userId);
+
+            int id = jdbcTemplate.query("SELECT id FROM meals", ROW_MAPPER).stream()
+                    .map(m -> m.getId())
+                    .max(Integer::compareTo)
+                    .get();
+            return get(id, userId);
         }
         else {
             Meal mealToUp = get(meal.getId(), userId);
@@ -48,8 +55,9 @@ public class JdbcMealRepository implements MealRepository {
 
             jdbcTemplate.update("UPDATE meals SET (datetime, description, calories) = (?, ?, ?) WHERE id = ?", mealToUp.getDateTime(),
                     mealToUp.getDescription(), mealToUp.getCalories(), meal.getId());
+
+            return get(mealToUp.getId(), userId);
         }
-        return meal;
     }
 
     @Override
