@@ -20,6 +20,8 @@ public class InMemoryAdminRestControllerTest {
     private static AdminRestController controller;
     private static InMemoryUserRepository repository;
 
+
+
     @BeforeClass
     public static void beforeClass() {
         appCtx = new ClassPathXmlApplicationContext("spring/spring-app.xml", "spring/spring-db.xml");

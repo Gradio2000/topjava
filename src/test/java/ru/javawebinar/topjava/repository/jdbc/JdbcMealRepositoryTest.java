@@ -17,6 +17,8 @@ import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.service.MealService;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -65,5 +67,8 @@ public class JdbcMealRepositoryTest {
 
     @Test
     public void getBetweenHalfOpen() {
+        List<Meal> list = mealService.getBetweenInclusive(LocalDate.of(2021, 01, 29),
+                LocalDate.of(2021, 01, 30), MealTestData.USER_ID);
+        MealTestData.assertMatchCollection(list, MealTestData.MEALS_LIST_BETWEEN);
     }
 }

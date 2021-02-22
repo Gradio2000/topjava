@@ -28,6 +28,12 @@ public class MealTestData {
             new Meal(LocalDateTime.of(2021, Month.JANUARY, 30, 10, 0), "завтрак", 500)
     );
 
+    public static List<Meal> MEALS_LIST_BETWEEN = Arrays.asList(
+            new Meal(LocalDateTime.of(2021, Month.JANUARY, 30, 20, 0), "ужин", 500),
+            new Meal(LocalDateTime.of(2021, Month.JANUARY, 30, 13, 0), "обед", 1000),
+            new Meal(LocalDateTime.of(2021, Month.JANUARY, 30, 10, 0), "завтрак", 500)
+    );
+
     public static void assertMatch(Meal actual, Meal expected) {
         assertThat(actual).usingRecursiveComparison().ignoringFields("id").isEqualTo(expected);
 
