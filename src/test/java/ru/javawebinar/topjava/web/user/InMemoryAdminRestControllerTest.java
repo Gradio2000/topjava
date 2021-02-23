@@ -10,14 +10,13 @@ import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.util.Arrays;
 
-import static ru.javawebinar.topjava.UserTestData.NOT_FOUND;
-import static ru.javawebinar.topjava.UserTestData.USER_ID;
+import static ru.javawebinar.topjava.UserTestData.*;
 
 public class InMemoryAdminRestControllerTest {
     private static final Logger log = LoggerFactory.getLogger(InMemoryAdminRestControllerTest.class);
 
     private static ConfigurableApplicationContext appCtx;
-    private static AdminRestController controller;
+    private static UserTestController controller;
     private static InMemoryUserRepository repository;
 
 
@@ -26,7 +25,7 @@ public class InMemoryAdminRestControllerTest {
     public static void beforeClass() {
         appCtx = new ClassPathXmlApplicationContext("spring/spring-app.xml", "spring/spring-db.xml");
         log.info("\n{}\n", Arrays.toString(appCtx.getBeanDefinitionNames()));
-        controller = appCtx.getBean(AdminRestController.class);
+        controller = appCtx.getBean(UserTestController.class);
         repository = appCtx.getBean(InMemoryUserRepository.class);
     }
 
@@ -49,6 +48,7 @@ public class InMemoryAdminRestControllerTest {
 
     @Test
     public void deleteNotFound() {
-        Assert.assertThrows(NotFoundException.class, () -> controller.delete(NOT_FOUND));
+//        Assert.assertThrows(NotFoundException.class, () -> controller.delete(NOT_FOUND));
+        Assert.assertEquals(false, controller.delete(NOT_FOUND));
     }
 }
