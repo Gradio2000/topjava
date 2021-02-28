@@ -1,5 +1,7 @@
 package ru.javawebinar.topjava;
 
+import org.junit.Assert;
+
 import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -20,7 +22,7 @@ public class TestMatcher<T> {
     }
 
     public void assertMatch(Iterable<T> actual, T... expected) {
-        assertMatch(actual, Arrays.asList(expected));
+        Assert.assertEquals(actual, Arrays.asList(expected));
     }
 
     public void assertMatch(Iterable<T> actual, Iterable<T> expected) {

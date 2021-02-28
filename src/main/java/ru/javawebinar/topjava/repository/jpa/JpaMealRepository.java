@@ -25,18 +25,21 @@ public class JpaMealRepository implements MealRepository {
     @Override
     @Transactional
     public Meal save(Meal meal, int userId) {
-        if (userId != SecurityUtil.authUserId()){
-            throw new NotFoundException("Некорректный пользователь");
-        }
-
         User user = entityManager.getReference(User.class, userId);
         meal.setUser(user);
+
+        if (user.id() != userId){
+            throw new NotFoundException("Некорректный пользователь");
+        }
 
         if (meal.isNew()){
             entityManager.persist(meal);
             return meal;
         }
         else {
+            if(get(meal.getId(), userId) == null){
+                throw new NotFoundException("ошибка");
+            }
             return entityManager.merge(meal);
         }
     }
@@ -53,6 +56,7 @@ public class JpaMealRepository implements MealRepository {
     }
 
     @Override
+    @Transactional
     public Meal get(int id, int userId) {
 
         return entityManager.createNamedQuery("Meal.get", Meal.class)
@@ -64,6 +68,7 @@ public class JpaMealRepository implements MealRepository {
     }
 
     @Override
+    @Transactional
     public List<Meal> getAll(int userId) {
         return entityManager.createNamedQuery("Meal.ALL_SORTED", Meal.class)
                 .setParameter("userId", userId)
@@ -71,6 +76,7 @@ public class JpaMealRepository implements MealRepository {
     }
 
     @Override
+    @Transactional
     public List<Meal> getBetweenHalfOpen(LocalDateTime startDateTime, LocalDateTime endDateTime, int userId) {
         return entityManager.createQuery("SELECT m FROM Meal AS m WHERE m.user.id=:userId AND m.dateTime>=:start AND m.dateTime<:end ORDER BY m.dateTime DESC ", Meal.class)
                 .setParameter("userId", userId)
