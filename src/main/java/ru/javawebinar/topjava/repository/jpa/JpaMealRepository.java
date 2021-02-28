@@ -1,8 +1,5 @@
 package ru.javawebinar.topjava.repository.jpa;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.javawebinar.topjava.model.Meal;
@@ -13,9 +10,11 @@ import ru.javawebinar.topjava.web.SecurityUtil;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.swing.table.TableRowSorter;
+import javax.persistence.Query;
 import java.time.LocalDateTime;
+import java.time.chrono.ChronoLocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class JpaMealRepository implements MealRepository {
@@ -45,21 +44,20 @@ public class JpaMealRepository implements MealRepository {
     @Override
     @Transactional
     public boolean delete(int id, int userId) {
-        if (userId != SecurityUtil.authUserId()){
-           throw new NotFoundException("Некорректный пользователь");
+        if(get(id, userId) == null){
+            throw new NotFoundException("ошибка");
         }
-        return entityManager.createNamedQuery("Meal.delete")
-                .setParameter("id", id)
-                .executeUpdate() != 0;
+
+        Query query = entityManager.createQuery("DELETE FROM Meal m WHERE m.id=" + id);
+        return query.executeUpdate() != 0;
     }
 
     @Override
     public Meal get(int id, int userId) {
-        if (userId != SecurityUtil.authUserId()){
-            throw new NotFoundException("Некорректный юзер");
-        }
+
         return entityManager.createNamedQuery("Meal.get", Meal.class)
                 .setParameter("id", id)
+                .setParameter("userId", userId)
                 .getResultList()
                 .stream()
                 .findAny().orElse(null);
@@ -67,13 +65,17 @@ public class JpaMealRepository implements MealRepository {
 
     @Override
     public List<Meal> getAll(int userId) {
-        return entityManager.createNamedQuery("Meal.getAll", Meal.class)
+        return entityManager.createNamedQuery("Meal.ALL_SORTED", Meal.class)
                 .setParameter("userId", userId)
                 .getResultList();
     }
 
     @Override
     public List<Meal> getBetweenHalfOpen(LocalDateTime startDateTime, LocalDateTime endDateTime, int userId) {
-        return null;
+        return entityManager.createQuery("SELECT m FROM Meal AS m WHERE m.user.id=:userId AND m.dateTime>=:start AND m.dateTime<:end ORDER BY m.dateTime DESC ", Meal.class)
+                .setParameter("userId", userId)
+                .setParameter("start", startDateTime)
+                .setParameter("end", endDateTime)
+                .getResultList();
     }
 }

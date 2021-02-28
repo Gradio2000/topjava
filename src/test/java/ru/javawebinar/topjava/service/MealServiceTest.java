@@ -49,7 +49,7 @@ public class MealServiceTest {
     @Test
     public void create() {
         Meal created = service.create(getNew(), USER_ID);
-        int newId = created.id();
+        int newId = created.getId();
         Meal newMeal = getNew();
         newMeal.setId(newId);
         MEAL_MATCHER.assertMatch(created, newMeal);

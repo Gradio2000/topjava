@@ -8,9 +8,9 @@ import java.time.LocalTime;
 @Entity
 @Table(name = "meals")
 @NamedQueries({
-        @NamedQuery(name = "Meal.getAll", query = "SELECT m FROM Meal m WHERE m.user.id=:userId"),
-        @NamedQuery(name = "Meal.delete", query = "DELETE FROM Meal m WHERE m.id=:id"),
-        @NamedQuery(name = "Meal.get", query = "SELECT m FROM Meal m WHERE m.id=:id"),
+        @NamedQuery(name = "Meal.get", query = "SELECT m FROM Meal m WHERE m.id=:id AND m.user.id=:userId"),
+        @NamedQuery(name = "Meal.ALL_SORTED", query = "SELECT m FROM Meal m WHERE m.user.id=:userId ORDER BY m.dateTime DESC")
+//        ,@NamedQuery(name = "Meal.ALL_SORTED", query = "SELECT m FROM Meal m WHERE m.user.id=:userId")
 })
 public class Meal extends AbstractBaseEntity {
     @Column
@@ -22,8 +22,7 @@ public class Meal extends AbstractBaseEntity {
     @Column
     private int calories;
 
-    @ManyToOne(
-            fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User user;
 
@@ -34,7 +33,6 @@ public class Meal extends AbstractBaseEntity {
     public Meal(LocalDateTime dateTime, String description, int calories) {
         this(null, dateTime, description, calories);
     }
-
 
     public User getUser() {
         return user;
