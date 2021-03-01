@@ -1,7 +1,7 @@
 package ru.javawebinar.topjava.service;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.*;
+import org.junit.rules.TestName;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -9,13 +9,12 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
 import ru.javawebinar.topjava.model.Meal;
+import ru.javawebinar.topjava.service.rules.MyRule1;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.time.LocalDate;
 import java.time.Month;
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
@@ -31,6 +30,12 @@ import static ru.javawebinar.topjava.UserTestData.USER_ID;
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
 public class MealServiceTest {
 
+    @Rule
+    public MyRule1 myRule = new MyRule1();
+
+    @Rule
+    public TestName testName = new TestName();
+
     @Autowired
     private MealService service;
 
@@ -38,6 +43,7 @@ public class MealServiceTest {
     public void delete() {
         service.delete(MEAL1_ID, USER_ID);
         assertThrows(NotFoundException.class, () -> service.get(MEAL1_ID, USER_ID));
+        System.out.print(testName.getMethodName());
     }
 
     @Test
@@ -114,4 +120,5 @@ public class MealServiceTest {
     public void getBetweenWithNullDates() {
         Assert.assertEquals(service.getBetweenInclusive(null, null, USER_ID), meals);
     }
+
 }
