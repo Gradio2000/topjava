@@ -17,13 +17,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Repository
+@Transactional
 public class JpaMealRepository implements MealRepository {
 
     @PersistenceContext
     private EntityManager entityManager;
 
     @Override
-    @Transactional
     public Meal save(Meal meal, int userId) {
         User user = entityManager.getReference(User.class, userId);
         meal.setUser(user);
@@ -45,7 +45,6 @@ public class JpaMealRepository implements MealRepository {
     }
 
     @Override
-    @Transactional
     public boolean delete(int id, int userId) {
         if(get(id, userId) == null){
             throw new NotFoundException("ошибка");
@@ -56,7 +55,7 @@ public class JpaMealRepository implements MealRepository {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Meal get(int id, int userId) {
 
         return entityManager.createNamedQuery("Meal.get", Meal.class)
@@ -68,7 +67,7 @@ public class JpaMealRepository implements MealRepository {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Meal> getAll(int userId) {
         return entityManager.createNamedQuery("Meal.ALL_SORTED", Meal.class)
                 .setParameter("userId", userId)
@@ -76,7 +75,7 @@ public class JpaMealRepository implements MealRepository {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Meal> getBetweenHalfOpen(LocalDateTime startDateTime, LocalDateTime endDateTime, int userId) {
         return entityManager.createQuery("SELECT m FROM Meal AS m WHERE m.user.id=:userId AND m.dateTime>=:start AND m.dateTime<:end ORDER BY m.dateTime DESC ", Meal.class)
                 .setParameter("userId", userId)
