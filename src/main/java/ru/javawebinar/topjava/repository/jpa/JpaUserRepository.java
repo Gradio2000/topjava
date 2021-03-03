@@ -8,10 +8,11 @@ import ru.javawebinar.topjava.repository.UserRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
 import java.util.List;
 
 @Repository
-@Transactional(readOnly = true)
+@Transactional
 public class JpaUserRepository implements UserRepository {
 
 /*
@@ -23,7 +24,7 @@ public class JpaUserRepository implements UserRepository {
     }
 */
 
-    @PersistenceContext
+    @PersistenceContext(type = PersistenceContextType.TRANSACTION)
     private EntityManager em;
 
     @Override
