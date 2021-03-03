@@ -2,6 +2,8 @@ package ru.javawebinar.topjava.service;
 
 import org.junit.*;
 import org.junit.rules.TestName;
+import org.junit.rules.TestWatcher;
+import org.junit.runner.Description;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -10,11 +12,14 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringRunner;
 import ru.javawebinar.topjava.model.Meal;
-import ru.javawebinar.topjava.service.rules.MyRule1;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
+
 
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
@@ -30,20 +35,54 @@ import static ru.javawebinar.topjava.UserTestData.USER_ID;
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
 public class MealServiceTest {
 
-    @Rule
-    public MyRule1 myRule = new MyRule1();
+    public static Map<String, Long> map = new HashMap<>();
+    public static void add(String testName, Long testTime){
+        map.put(testName, testTime);
+    }
 
-    @Rule
-    public TestName testName = new TestName();
+    @AfterClass
+    public static void stringTest(){
+        long totalTime = 0;
+        for (String key : map.keySet()){
+            System.out.println(key + " = " + map.get(key) + " ms");
+            totalTime += map.get(key);
+        }
+        System.out.println("Total = " + totalTime + "ms");
+    }
+
 
     @Autowired
     private MealService service;
+
+    @Rule
+    public TestWatcher watcher = new TestWatcher() {
+        Date date1;
+        Date date2;
+
+        @Override
+        protected void starting(Description description) {
+            date1 = new Date();
+            System.out.println("aaa = " + description.getMethodName());
+        }
+
+        @Override
+        protected void finished(Description description) {
+            date2 = new Date();
+
+            date2 = new Date();
+            System.out.println();
+            long timeTest = Long.parseLong(String.valueOf(date2.getTime())) -
+                    Long.parseLong(String.valueOf(date1.getTime()));
+            System.out.println("Время выполнения теста: " + timeTest + " ms");
+            MealServiceTest.add(description.getMethodName(), timeTest);
+        }
+    };
+
 
     @Test
     public void delete() {
         service.delete(MEAL1_ID, USER_ID);
         assertThrows(NotFoundException.class, () -> service.get(MEAL1_ID, USER_ID));
-        System.out.print(testName.getMethodName());
     }
 
     @Test
