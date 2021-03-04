@@ -23,7 +23,7 @@ public class Meal extends AbstractBaseEntity {
     @Column
     private int calories;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
