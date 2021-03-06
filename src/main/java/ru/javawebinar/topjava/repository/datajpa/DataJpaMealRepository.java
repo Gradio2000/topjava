@@ -2,7 +2,9 @@ package ru.javawebinar.topjava.repository.datajpa;
 
 import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.Meal;
+import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.MealRepository;
+import ru.javawebinar.topjava.repository.UserRepository;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import javax.transaction.Transactional;
@@ -14,15 +16,29 @@ import java.util.stream.Collectors;
 @Repository
 public class DataJpaMealRepository implements MealRepository {
 
+    private final CrudUserRepository userRepository;
     private final CrudMealRepository crudRepository;
 
-    public DataJpaMealRepository(CrudMealRepository crudRepository) {
+    public DataJpaMealRepository(CrudMealRepository crudRepository, CrudUserRepository userRepository) {
         this.crudRepository = crudRepository;
+        this.userRepository = userRepository;
     }
 
+    @Transactional
     @Override
     public Meal save(Meal meal, int userId) {
-        return null;
+        User user = userRepository.getOne(userId);
+        meal.setUser(user);
+        if (meal.isNew()){
+            return crudRepository.save(meal);
+        }
+        else {
+            Meal updateMeal = get(meal.getId(), userId);
+            updateMeal.setDateTime(meal.getDateTime());
+            updateMeal.setDescription(meal.getDescription());
+            updateMeal.setCalories(meal.getCalories());
+            return crudRepository.save(updateMeal);
+        }
     }
 
     @Transactional
@@ -43,7 +59,7 @@ public class DataJpaMealRepository implements MealRepository {
     public Meal get(int id, int userId) {
         Meal meal = crudRepository.findById(id).orElse(null);
         if (meal == null || meal.getUser() == null ||  meal.getUser().id() != userId){
-            throw new NotFoundException("aaa");
+            throw new NotFoundException("Not found entity with id=" + id);
         }
         return meal;
     }
