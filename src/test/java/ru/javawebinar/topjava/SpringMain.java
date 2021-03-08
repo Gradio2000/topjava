@@ -32,5 +32,6 @@ public class SpringMain {
             System.out.println();
             System.out.println(mealController.getBetween(null, null, null, null));
         }
+        System.out.println(Profiles.getActiveDbProfile());
     }
 }
