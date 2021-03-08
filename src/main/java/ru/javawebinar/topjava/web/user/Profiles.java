@@ -1,4 +1,4 @@
-package ru.javawebinar.topjava;
+package ru.javawebinar.topjava.web.user;
 
 import org.springframework.lang.NonNull;
 import org.springframework.test.context.ActiveProfilesResolver;
@@ -31,7 +31,7 @@ public class Profiles {
     public static class ActiveDbProfileResolver implements ActiveProfilesResolver {
         @Override
         public @NonNull String[] resolve(@NonNull Class<?> aClass) {
-            return new String[]{getActiveDbProfile()};
+            return new String[]{getActiveDbProfile(), REPOSITORY_IMPLEMENTATION};
         }
     }
 }

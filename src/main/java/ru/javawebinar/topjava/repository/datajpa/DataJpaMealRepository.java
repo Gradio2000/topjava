@@ -2,11 +2,13 @@ package ru.javawebinar.topjava.repository.datajpa;
 
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
+import org.springframework.test.context.ActiveProfiles;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.MealRepository;
 import ru.javawebinar.topjava.repository.UserRepository;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
+import ru.javawebinar.topjava.web.user.Profiles;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
@@ -15,7 +17,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Repository
-@Profile("postgres")
+//@Profile({"postgres", "datajpa"})
+@ActiveProfiles(resolver = Profiles.ActiveDbProfileResolver.class)
 public class DataJpaMealRepository implements MealRepository {
 
     private final CrudUserRepository userRepository;

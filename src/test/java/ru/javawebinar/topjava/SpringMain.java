@@ -7,6 +7,7 @@ import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.to.MealTo;
 import ru.javawebinar.topjava.web.meal.MealRestController;
 import ru.javawebinar.topjava.web.user.AdminRestController;
+import ru.javawebinar.topjava.web.user.Profiles;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -32,6 +33,6 @@ public class SpringMain {
             System.out.println();
             System.out.println(mealController.getBetween(null, null, null, null));
         }
-        System.out.println(Profiles.getActiveDbProfile());
+        System.out.println(Profiles.ActiveDbProfileResolver.class);
     }
 }
