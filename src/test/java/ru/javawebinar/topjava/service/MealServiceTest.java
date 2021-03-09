@@ -41,6 +41,8 @@ public class MealServiceTest {
 
     private static final StringBuilder results = new StringBuilder();
 
+    private static long total = 0;
+
     @Rule
     // http://stackoverflow.com/questions/14892125/what-is-the-best-practice-to-determine-the-execution-time-of-the-bussiness-relev
     public final Stopwatch stopwatch = new Stopwatch() {
@@ -49,6 +51,7 @@ public class MealServiceTest {
             String result = String.format("\n%-25s %7d", description.getMethodName(), TimeUnit.NANOSECONDS.toMillis(nanos));
             results.append(result);
             log.info(result + " ms\n");
+            total += TimeUnit.NANOSECONDS.toMillis(nanos);
         }
     };
 
@@ -62,6 +65,7 @@ public class MealServiceTest {
                 "\n---------------------------------" +
                 results +
                 "\n---------------------------------");
+        System.out.println("total = " + total);
     }
 
     @Test

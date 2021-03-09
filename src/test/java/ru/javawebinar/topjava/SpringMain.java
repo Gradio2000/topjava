@@ -2,6 +2,8 @@ package ru.javawebinar.topjava;
 
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.core.env.ConfigurableEnvironment;
+import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.to.MealTo;
@@ -14,11 +16,14 @@ import java.time.LocalTime;
 import java.time.Month;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class SpringMain {
     public static void main(String[] args) {
+        System.setProperty("spring.profiles.active", "postgres, datajpa");
         // java 7 automatic resource management (ARM)
-        try (ConfigurableApplicationContext appCtx = new ClassPathXmlApplicationContext("spring/spring-app.xml", "spring/inmemory.xml")) {
+        try (ConfigurableApplicationContext appCtx = new ClassPathXmlApplicationContext("spring/spring-app.xml", "spring/spring-db.xml")) {
             System.out.println("Bean definition names: " + Arrays.toString(appCtx.getBeanDefinitionNames()));
             AdminRestController adminUserController = appCtx.getBean(AdminRestController.class);
             adminUserController.create(new User(null, "userName", "email@mail.ru", "password", Role.ADMIN));
@@ -32,6 +37,9 @@ public class SpringMain {
             filteredMealsWithExcess.forEach(System.out::println);
             System.out.println();
             System.out.println(mealController.getBetween(null, null, null, null));
+
+            Map<User, Set<Meal>> userWithMeal = mealController.getUserWithMeal(UserTestData.USER_ID);
+            System.out.println(userWithMeal);
         }
         System.out.println(Profiles.ActiveDbProfileResolver.class);
     }

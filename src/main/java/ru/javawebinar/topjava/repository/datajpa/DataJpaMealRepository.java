@@ -12,8 +12,7 @@ import ru.javawebinar.topjava.web.user.Profiles;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Repository
@@ -87,5 +86,16 @@ public class DataJpaMealRepository implements MealRepository {
                 .filter(meal -> meal.getDateTime().isBefore(endDateTime))
                 .sorted(Comparator.comparing(Meal::getDateTime).reversed())
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    @Override
+    public Map<User, Set<Meal>> getUserWithMeal(int userId){
+        User user = userRepository.getOne(userId);
+        Set<Meal> mealSet = user.getMealSet();
+
+        Map<User, Set<Meal>> userSetMap = new HashMap<>();
+        userSetMap.put(user, mealSet);
+        return userSetMap;
     }
 }

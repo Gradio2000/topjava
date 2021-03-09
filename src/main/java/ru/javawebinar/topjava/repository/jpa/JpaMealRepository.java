@@ -10,6 +10,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Repository
 @Transactional(readOnly = true)
@@ -60,5 +62,10 @@ public class JpaMealRepository implements MealRepository {
                 .setParameter("startDateTime", startDateTime)
                 .setParameter("endDateTime", endDateTime)
                 .getResultList();
+    }
+
+    @Override
+    public Map<User, Set<Meal>> getUserWithMeal(int userId) {
+        return null;
     }
 }
