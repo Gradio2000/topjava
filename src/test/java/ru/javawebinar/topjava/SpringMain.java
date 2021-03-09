@@ -38,7 +38,7 @@ public class SpringMain {
             System.out.println();
             System.out.println(mealController.getBetween(null, null, null, null));
 
-            Map<User, Set<Meal>> userWithMeal = mealController.getUserWithMeal(UserTestData.USER_ID);
+            Map<User, List<Meal>> userWithMeal = mealController.getUserWithMeal(UserTestData.USER_ID);
             System.out.println(userWithMeal);
         }
         System.out.println(Profiles.ActiveDbProfileResolver.class);

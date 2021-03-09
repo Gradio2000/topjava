@@ -8,10 +8,7 @@ import org.hibernate.validator.constraints.Range;
 import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.Date;
-import java.util.EnumSet;
-import java.util.Set;
+import java.util.*;
 
 import static ru.javawebinar.topjava.util.MealsUtil.DEFAULT_CALORIES_PER_DAY;
 
@@ -58,13 +55,13 @@ public class User extends AbstractNamedEntity {
     private int caloriesPerDay = DEFAULT_CALORIES_PER_DAY;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
-    private Set<Meal> mealSet;
+    private List<Meal> mealSet;
 
-    public Set<Meal> getMealSet() {
+    public List<Meal> getMealSet() {
         return mealSet;
     }
 
-    public void setMealSet(Set<Meal> mealSet) {
+    public void setMealSet(List<Meal> mealSet) {
         this.mealSet = mealSet;
     }
 

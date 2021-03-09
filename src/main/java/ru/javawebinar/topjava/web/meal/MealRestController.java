@@ -78,7 +78,7 @@ public class MealRestController {
         return MealsUtil.getFilteredTos(mealsDateFiltered, SecurityUtil.authUserCaloriesPerDay(), startTime, endTime);
     }
 
-    public Map<User, Set<Meal>> getUserWithMeal(int userId){
+    public Map<User, List<Meal>> getUserWithMeal(int userId){
         return service.getUserWithMeal(userId);
     }
 }

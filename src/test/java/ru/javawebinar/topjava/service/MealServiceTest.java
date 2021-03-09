@@ -15,12 +15,18 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringRunner;
+import ru.javawebinar.topjava.MealTestData;
+import ru.javawebinar.topjava.UserTestData;
+import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.web.user.Profiles;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertThrows;
@@ -147,5 +153,15 @@ public class MealServiceTest {
     @Test
     public void getBetweenWithNullDates() {
         MEAL_MATCHER.assertMatch(service.getBetweenInclusive(null, null, USER_ID), meals);
+    }
+
+    @Test
+    public void getUserWithMealById(){
+        Map<User, List<Meal>> userWithMeal = service.getUserWithMeal(USER_ID);
+        User user = (User) userWithMeal.keySet().toArray()[0];
+        Assert.assertEquals(user, UserTestData.user);
+        List<Meal> list = userWithMeal.get(user);
+        MEAL_MATCHER.assertMatch(list, meals);
+
     }
 }

@@ -67,7 +67,7 @@ public class InMemoryMealRepository implements MealRepository {
     }
 
     @Override
-    public Map<User, Set<Meal>> getUserWithMeal(int userId) {
+    public Map<User, List<Meal>> getUserWithMeal(int userId) {
         return null;
     }
 

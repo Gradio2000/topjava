@@ -16,7 +16,6 @@ import ru.javawebinar.topjava.repository.MealRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 @Repository
 public class JdbcMealRepository implements MealRepository {
@@ -88,7 +87,7 @@ public class JdbcMealRepository implements MealRepository {
     }
 
     @Override
-    public Map<User, Set<Meal>> getUserWithMeal(int userId) {
+    public Map<User, List<Meal>> getUserWithMeal(int userId) {
         return null;
     }
 }
