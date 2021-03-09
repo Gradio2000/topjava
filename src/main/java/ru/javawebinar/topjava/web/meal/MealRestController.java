@@ -81,4 +81,8 @@ public class MealRestController {
     public Map<User, List<Meal>> getUserWithMeal(int userId){
         return service.getUserWithMeal(userId);
     }
+
+    public Map<Meal, User> getMealById(int id, int userId){
+        return service.getMealById(id, userId);
+    }
 }

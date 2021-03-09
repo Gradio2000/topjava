@@ -90,4 +90,9 @@ public class JdbcMealRepository implements MealRepository {
     public Map<User, List<Meal>> getUserWithMeal(int userId) {
         return null;
     }
+
+    @Override
+    public Map<Meal, User> getMealById(int id, int userId) {
+        return null;
+    }
 }

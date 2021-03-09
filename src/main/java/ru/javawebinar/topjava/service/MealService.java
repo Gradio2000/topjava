@@ -54,4 +54,8 @@ public class MealService {
     public Map<User, List<Meal>> getUserWithMeal(int userId){
         return repository.getUserWithMeal(userId);
     }
+
+    public Map<Meal, User> getMealById(int id, int userId){
+        return repository.getMealById(id, userId);
+    }
 }

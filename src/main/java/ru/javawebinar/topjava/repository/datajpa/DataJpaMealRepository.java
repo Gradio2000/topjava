@@ -98,4 +98,14 @@ public class DataJpaMealRepository implements MealRepository {
         userSetMap.put(user, mealSet);
         return userSetMap;
     }
+
+    @Transactional
+    @Override
+    public Map<Meal, User> getMealById(int id, int userId) {
+        Map<Meal, User> mealUserMap = new HashMap<>();
+        Meal meal = get(id, userId);
+        User user = meal.getUser();
+        mealUserMap.put(meal, user);
+        return mealUserMap;
+    }
 }

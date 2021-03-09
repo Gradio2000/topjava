@@ -32,8 +32,7 @@ import java.util.concurrent.TimeUnit;
 import static org.junit.Assert.assertThrows;
 import static org.slf4j.LoggerFactory.getLogger;
 import static ru.javawebinar.topjava.MealTestData.*;
-import static ru.javawebinar.topjava.UserTestData.ADMIN_ID;
-import static ru.javawebinar.topjava.UserTestData.USER_ID;
+import static ru.javawebinar.topjava.UserTestData.*;
 
 @ContextConfiguration({
         "classpath:spring/spring-app.xml",
@@ -82,7 +81,7 @@ public class MealServiceTest {
 
     @Test
     public void deleteNotFound() {
-        assertThrows(NotFoundException.class, () -> service.delete(NOT_FOUND, USER_ID));
+        assertThrows(NotFoundException.class, () -> service.delete(MealTestData.NOT_FOUND, USER_ID));
     }
 
     @Test
@@ -92,9 +91,9 @@ public class MealServiceTest {
 
     @Test
     public void create() {
-        Meal created = service.create(getNew(), USER_ID);
+        Meal created = service.create(MealTestData.getNew(), USER_ID);
         int newId = created.id();
-        Meal newMeal = getNew();
+        Meal newMeal = MealTestData.getNew();
         newMeal.setId(newId);
         MEAL_MATCHER.assertMatch(created, newMeal);
         MEAL_MATCHER.assertMatch(service.get(newId, USER_ID), newMeal);
@@ -115,7 +114,7 @@ public class MealServiceTest {
 
     @Test
     public void getNotFound() {
-        assertThrows(NotFoundException.class, () -> service.get(NOT_FOUND, USER_ID));
+        assertThrows(NotFoundException.class, () -> service.get(MealTestData.NOT_FOUND, USER_ID));
     }
 
     @Test
@@ -125,9 +124,9 @@ public class MealServiceTest {
 
     @Test
     public void update() {
-        Meal updated = getUpdated();
+        Meal updated = MealTestData.getUpdated();
         service.update(updated, USER_ID);
-        MEAL_MATCHER.assertMatch(service.get(MEAL1_ID, USER_ID), getUpdated());
+        MEAL_MATCHER.assertMatch(service.get(MEAL1_ID, USER_ID), MealTestData.getUpdated());
     }
 
     @Test
@@ -159,9 +158,19 @@ public class MealServiceTest {
     public void getUserWithMealById(){
         Map<User, List<Meal>> userWithMeal = service.getUserWithMeal(USER_ID);
         User user = (User) userWithMeal.keySet().toArray()[0];
-        Assert.assertEquals(user, UserTestData.user);
         List<Meal> list = userWithMeal.get(user);
-        MEAL_MATCHER.assertMatch(list, meals);
 
+        Assert.assertEquals(user, UserTestData.user);
+        MEAL_MATCHER.assertMatch(list, meals);
+    }
+
+    @Test
+    public void getMealById(){
+        Map<Meal, User> mealUserMap = service.getMealById(MEAL1_ID, USER_ID);
+        Meal meal = (Meal) mealUserMap.keySet().toArray()[0];
+        User user = mealUserMap.get(meal);
+
+        MEAL_MATCHER.assertMatch(meal, meal1);
+        Assert.assertEquals(user, UserTestData.user);
     }
 }
