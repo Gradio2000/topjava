@@ -16,9 +16,6 @@ public class RootController {
     @Autowired
     private UserService service;
 
-    @Autowired
-    private MealRestController controller;
-
     @GetMapping("/")
     public String root() {
         return "index";
@@ -35,11 +32,5 @@ public class RootController {
         int userId = Integer.parseInt(request.getParameter("userId"));
         SecurityUtil.setAuthUserId(userId);
         return "redirect:meals";
-    }
-
-    @GetMapping("/meals")
-    public String getMeals(Model model){
-        model.addAttribute("meal", controller.getAll());
-        return "meals";
     }
 }
