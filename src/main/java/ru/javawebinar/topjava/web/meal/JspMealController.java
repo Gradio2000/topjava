@@ -6,8 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import ru.javawebinar.topjava.model.Meal;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 @Controller
 public class JspMealController {
@@ -25,10 +28,21 @@ public class JspMealController {
                 controller.delete(id);
                 return "redirect:meals";
             }
+
+            case "create", "update" -> {
+                int id = Integer.parseInt(request.getParameter("id"));
+                final Meal meal = "create".equals(action) ?
+                        new Meal(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), "", 1000) :
+                        controller.get(id);
+                request.setAttribute("meal", meal);
+//                request.getRequestDispatcher("/mealForm.jsp").forward(request, response);
+                return "mealForm";
+            }
+
+            default -> {
+                model.addAttribute("meal", controller.getAll());
+                return "meals";
+            }
         }
-
-        model.addAttribute("meal", controller.getAll());
-        return "meals";
     }
-
 }
