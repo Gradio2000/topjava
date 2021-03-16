@@ -7,12 +7,11 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <html>
 <head>
-    <h3><spring:message code="meal.title"/></h3>
-    <link rel="stylesheet" href="css/style.css">
+    <jsp:include page="fragments/headTag.jsp"/>
 </head>
+    <jsp:include page="fragments/bodyHeader.jsp"/>
 <body>
 <section>
-    <h3><a href="index.jsp">Home</a></h3>
     <hr/>
     <h2>Meals</h2>
     <form method="get" action="meals">
